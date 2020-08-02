@@ -46,8 +46,22 @@ I'll be using:
 ### Database model:
 ![](https://app.lucidchart.com/publicSegments/view/efcdfa64-443d-4c3e-afe1-a909581c604f/image.png)
 
+## Useful hints / documentation
+
+  When creating an user with Insomnia, instead of *email and password*, use *email and passcode*.
+  This will generate the hash with bcrypt.
+  
 ### Done:
   create server folder;
+
   generate express app;
+  
   create git repo and sync;
-  create database: "navers";
+
+  create postgres database via docker;
+  
+  create database: "navers", "user", "project";
+
+  create models: "navers", "user", "project";
+
+

@@ -1,59 +1,59 @@
-const express = require('express');
+// const express = require('express');
 
-const server = express();
+// const server = express();
 
-server.use(express.json());
+// server.use(express.json());
 
-const users = ['Me', 'Myself', 'Irene'];
+// const users = ['Me', 'Myself', 'Irene'];
 
-// global middlewares
-server.use((req, res, next) => {
-  console.time('Requisition time');
-  console.log(`Method: ${req.method}, URL: ${req.url}`);
-  console.timeEnd('Requisition time');
-  return next();
-});
+// // global middlewares
+// server.use((req, res, next) => {
+//   console.time('Requisition time');
+//   console.log(`Method: ${req.method}, URL: ${req.url}`);
+//   console.timeEnd('Requisition time');
+//   return next();
+// });
 
-// local middlewares
-function checkUser(req, res, next) {}
+// // local middlewares
+// function checkUser(req, res, next) {}
 
-function findUser(req, res, next) {}
+// function findUser(req, res, next) {}
 
-// get methods
-server.get('/users', (req, res) => res.json(users));
+// // get methods
+// server.get('/users', (req, res) => res.json(users));
 
-server.get('/users/:index', (req, res) => {
-  const { index } = req.params;
+// server.get('/users/:index', (req, res) => {
+//   const { index } = req.params;
 
-  return res.json(users[index]);
-});
+//   return res.json(users[index]);
+// });
 
-// post method
-server.post('/users', (req, res) => {
-  const { name } = req.body;
+// // post method
+// server.post('/users', (req, res) => {
+//   const { name } = req.body;
 
-  users.push(name);
+//   users.push(name);
 
-  return res.json(users);
-});
+//   return res.json(users);
+// });
 
-// put method
-server.put('/users/index', (req, res) => {
-  const { index } = req.params;
-  const { name } = req.body;
+// // put method
+// server.put('/users/index', (req, res) => {
+//   const { index } = req.params;
+//   const { name } = req.body;
 
-  users[index] = name;
+//   users[index] = name;
 
-  return res.json(`User nº ${index} now is ${name}.`);
-});
+//   return res.json(`User nº ${index} now is ${name}.`);
+// });
 
-// delete method
-server.delete('/users/:index', (req, res) => {
-  const { index } = req.params;
+// // delete method
+// server.delete('/users/:index', (req, res) => {
+//   const { index } = req.params;
 
-  users.splice(index, 1);
+//   users.splice(index, 1);
 
-  res.send();
-});
+//   res.send();
+// });
 
-server.listen(6006);
+// server.listen(6006);
