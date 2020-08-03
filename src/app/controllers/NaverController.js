@@ -35,7 +35,42 @@ class NaverController {
 
   async index(req, res) {
     const naver = await Naver.findAll({
-      attributes: ['id', 'name'],
+      attributes: [
+        'id',
+        'name',
+        'job_role',
+        'birth_date',
+        'admission_date',
+        'email',
+      ],
+    });
+
+    return res.json(naver);
+  }
+
+  async indexByRole(req, res) {
+    const naver = await Naver.findAll({
+      where: { job_role: req.params.job_role },
+      order: ['job_role'],
+      attributes: ['id', 'name', 'job_role', 'email'],
+    });
+
+    return res.json(naver);
+  }
+
+  async indexByName(req, res) {
+    const { name } = req.params;
+    console.log(name);
+    const splitName = name.split(' ');
+    console.log(splitName);
+
+    const firstName = splitName[0];
+    console.log(firstName);
+
+    const naver = await Naver.findAll({
+      where: { name: firstName },
+      order: ['name'],
+      attributes: ['id', 'name', 'email'],
     });
 
     return res.json(naver);
