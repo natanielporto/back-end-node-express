@@ -1,3 +1,4 @@
+// import * as Yup from 'yup';
 import Naver from '../models/Naver';
 
 class NaverController {
@@ -30,6 +31,14 @@ class NaverController {
       message:
         'You are already a Naver. One cannot be two Navers at the same time, silly goose!',
     });
+  }
+
+  async index(req, res) {
+    const naver = await Naver.findAll({
+      attributes: ['id', 'name'],
+    });
+
+    return res.json(naver);
   }
 }
 

@@ -8,9 +8,9 @@ I'll be using:
 ## Full Stack Check List for Navedex:
 
 ### Full system:
-* [] follow MVC patterns;
-* [] create user with email and password;
-* [] once loged, the user may have access for data like: name, birthdate, role in the company, years in the company, admission date, projects that he/she took part in; 
+* [X] follow MVC patterns;
+* [X] create user with email and password;
+* [X] once loged, the user may have access for data like: name, birthdate, role in the company, years in the company, admission date, projects that he/she took part in; 
 * [] entities of USERS, NAVERS and PROJECTS must have relations with each other;
 * [] MUST: be possible to see wich project a NAVER is assigned to and vice-versa, based on the users request;
 
@@ -20,21 +20,21 @@ I'll be using:
 
 ### Funcionalities:
 -- User
-* [] Authentication: signup - receive an e-mail and password to create a new entry in the DB;
-* [] Authentication: login - must be in a JWT token;
-* [] the following routes must NOT be accessible by users that don't have the token;
+* [X] Authentication: signup - receive an e-mail and password to create a new entry in the DB;
+* [X] Authentication: login - must be in a JWT token;
+* [X] the following routes must NOT be accessible by users that don't have the token;
 
 -- Navers
-* [] Navers: route index by => years of work in the *company*, *name* and *role*;
+* [] Navers: route index by => *years of work in the company*, *name* and *role*;
 * [] Navers: route show => returns only one;
-* [] Navers: route store => creates a Naver;
+* [X] Navers: route store => creates a Naver;
 * [] Navers: route update;
 * [] Navers: route delete *an user can only delete it's own Naver*;
 
 -- Projects
 * [] Projects: route filter by *name of the user*;
 * [] Projects: route detail a project (showing the Navers that participate in it);
-* [] Projects: route create - return an object;
+* [X] Projects: route create - return an object;
 * [] Projects: route update project *by id*, and *only the user can delete his/her projects*;
 
 -- Must
@@ -64,4 +64,9 @@ I'll be using:
 
   create models: "navers", "user", "project";
 
+  create initial interaction and validation of the post functionality of "navers", "user", "project";
 
+  md5encryption: testebackendnave => 52bf70d79d5da983c1b9327439b8f8e4
+
+  still needs work: get users can't return passwords.
+  update project must change name.
