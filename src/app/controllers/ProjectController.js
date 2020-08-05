@@ -35,7 +35,7 @@ class ProjectController {
 
   async update(req, res) {
     const schema = Yup.object().shape({
-      name: Yup.string().required().min(6),
+      id: Yup.number().required(),
       newName: Yup.string().required().min(6),
       confirmName: Yup.string()
         .required()
@@ -47,15 +47,16 @@ class ProjectController {
 
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({
-        error: 'New name invalid. Please check it and try again.',
+        error:
+          'Id, new name (min. 6 characters) and name confirmation needed to update.',
       });
     }
 
-    console.log(req.params);
+    const { id, newName } = req.body;
 
-    const project = await Project.findByPk(req.params.id);
+    const project = await Project.findByPk(id);
 
-    const { name, newName } = req.body;
+    const { name } = project;
 
     if (!project) {
       return res
@@ -65,13 +66,15 @@ class ProjectController {
 
     if (newName && newName === name) {
       return res
-        .status(401)
+        .status(400)
         .json({ error: 'Names match. Choose a different name.' });
     }
 
-    await project.update(req.params.id, req.body);
+    project.name = newName;
 
-    return res.json({ newName });
+    return res
+      .status(200)
+      .json({ message: `Project ${name} updated to: ${newName}` });
   }
 
   async index(req, res) {
@@ -80,6 +83,36 @@ class ProjectController {
     });
 
     return res.json(projects);
+  }
+
+  async delete(req, res) {
+    const schema = Yup.object().shape({
+      id: Yup.number().required(),
+    });
+
+    if (!(await schema.isValid(req.params))) {
+      return res.status(400).json({
+        error: 'Please, pass a valid Id to delete a project.',
+      });
+    }
+
+    const project = await Project.findByPk(req.params.id);
+
+    if (!project) {
+      res
+        .status(400)
+        .json({ message: 'No project to be deleted with that Id.' });
+    }
+
+    const { id, name } = project;
+
+    try {
+      await Project.destroy({ where: { id } });
+    } catch (err) {
+      res.status(400).json({ message: 'no' });
+    }
+
+    return res.status(200).json({ message: `Project ${name} deleted.` });
   }
 }
 

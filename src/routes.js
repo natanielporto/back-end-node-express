@@ -25,7 +25,8 @@ routes.get('/naver/job/:job_role', NaverController.indexByRole);
 routes.get('/naver/name/:name', NaverController.indexByName);
 
 routes.get('/project', ProjectController.index);
-
 routes.get('/user', UserController.index);
+
+routes.delete('/project/:id', ProjectController.delete);
 
 export default routes;

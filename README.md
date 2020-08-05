@@ -15,7 +15,7 @@ I'll be using:
 * [] MUST: be possible to see wich project a NAVER is assigned to and vice-versa, based on the users request;
 
 ### What must be delivered:
-* [] a RESTful API in node.js;
+* [X] a RESTful API in Node.JS;
 * [] a proper documentation of how the API can be tested - Insomnia shall sufice;
 
 ### Funcionalities:
@@ -35,7 +35,8 @@ I'll be using:
 * [] Projects: route filter by *name of the user*;
 * [] Projects: route detail a project (showing the Navers that participate in it);
 * [X] Projects: route create - return an object;
-* [] Projects: route update project *by id*, and *only the user can delete his/her projects*;
+* [X] Projects: route update project *by id*, 
+* [] Projects: *only the user can delete his/her projects*;
 
 -- Must
 * [] All responses must be in JSON format.
@@ -66,7 +67,11 @@ I'll be using:
 
   create initial interaction and validation of the post functionality of "navers", "user", "project";
 
-  md5encryption: testebackendnave => 52bf70d79d5da983c1b9327439b8f8e4
+  md5encryption: testebackendnave => 52bf70d79d5da983c1b9327439b8f8e4;
 
-  still needs work: get users can't return passwords.
-  update project must change name.
+  navers: create, index, indexByName, indexByJobRole implemented;
+  
+  project: index, create, update, delete(STILL MISSING USER VALIDATION) implementend
+
+  still needs work: 
+    * search by name can't have a space between first name and last name
