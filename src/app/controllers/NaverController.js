@@ -1,6 +1,5 @@
 // import * as Yup from 'yup';
 import Naver from '../models/Naver';
-import User from '../models/User';
 
 class NaverController {
   async store(req, res) {
@@ -8,46 +7,38 @@ class NaverController {
       where: { email: req.body.email },
     });
 
-    const { user_id } = req.params;
-    console.log(user_id);
-    const naver_id = user_id;
-    console.log(naver_id);
-
-    if (!alredyNaver) {
-      const {
-        id,
-        name,
-        job_role,
-        birth_date,
-        admission_date,
-        email,
-      } = req.body;
-
-      await Naver.create(
-        id,
-        name,
-        job_role,
-        birth_date,
-        admission_date,
-        email,
-        naver_id
-      );
-
-      return res.json({
-        id,
-        name,
-        job_role,
-        birth_date,
-        admission_date,
-        email,
-        naver_id,
+    if (alredyNaver) {
+      return res.status(400).json({
+        message:
+          'You are already a Naver. One cannot be two Navers at the same time, silly goose!',
       });
     }
 
-    return res.status(400).json({
-      message:
-        'You are already a Naver. One cannot be two Navers at the same time, silly goose!',
-    });
+    const { user_id } = req.params;
+
+    const { name, job_role, birth_date, admission_date, email } = req.body;
+
+    try {
+      await Naver.create({
+        name,
+        job_role,
+        birth_date,
+        admission_date,
+        email,
+        user_id,
+      });
+
+      return res.status(200).json({
+        name,
+        job_role,
+        birth_date,
+        admission_date,
+        email,
+        user_id,
+      });
+    } catch (err) {
+      return res.json(err);
+    }
   }
 
   async index(req, res) {
