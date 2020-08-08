@@ -11,9 +11,9 @@ const routes = new Router();
 
 routes.post('/user', UserController.store);
 
-routes.use(authMiddleware);
-
 routes.post('/authentication', AuthenticationController.store);
+
+routes.use(authMiddleware);
 
 routes.post('/project', ProjectController.store);
 routes.post('/user/:user_id/naver', NaverController.store);

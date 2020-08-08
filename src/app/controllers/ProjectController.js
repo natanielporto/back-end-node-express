@@ -70,11 +70,15 @@ class ProjectController {
         .json({ error: 'Names match. Choose a different name.' });
     }
 
-    project.name = newName;
+    try {
+      await Project.update({ name: newName }, { where: { id } });
 
-    return res
-      .status(200)
-      .json({ message: `Project ${name} updated to: ${newName}` });
+      return res
+        .status(200)
+        .json({ message: `Project ${name} updated to: ${newName}` });
+    } catch (err) {
+      return res.status(500).json({ message: err });
+    }
   }
 
   async index(req, res) {

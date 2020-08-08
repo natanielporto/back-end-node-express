@@ -1,8 +1,8 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    return queryInterface.addColumn('users', 'naver_id', {
+    return queryInterface.addColumn('navers', 'user_id', {
       type: Sequelize.INTEGER,
-      references: { model: 'navers', key: 'id' },
+      references: { model: 'users', key: 'id' },
       onUpdate: 'CASCADE',
       onDelete: 'RESTRICT',
       allowNull: true,
@@ -10,8 +10,6 @@ module.exports = {
   },
 
   down: async (queryInterface) => {
-    return queryInterface.removeColumn('users', 'naver_id');
+    return queryInterface.removeColumn('navers', 'user_id');
   },
 };
-
-// 48:00
