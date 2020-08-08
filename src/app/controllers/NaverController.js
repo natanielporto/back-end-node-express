@@ -1,11 +1,17 @@
 // import * as Yup from 'yup';
 import Naver from '../models/Naver';
+import User from '../models/User';
 
 class NaverController {
   async store(req, res) {
     const alredyNaver = await Naver.findOne({
       where: { email: req.body.email },
     });
+
+    const { user_id } = req.params;
+    console.log(user_id);
+    const naver_id = user_id;
+    console.log(naver_id);
 
     if (!alredyNaver) {
       const {
@@ -15,7 +21,17 @@ class NaverController {
         birth_date,
         admission_date,
         email,
-      } = await Naver.create(req.body);
+      } = req.body;
+
+      await Naver.create(
+        id,
+        name,
+        job_role,
+        birth_date,
+        admission_date,
+        email,
+        naver_id
+      );
 
       return res.json({
         id,
@@ -24,6 +40,7 @@ class NaverController {
         birth_date,
         admission_date,
         email,
+        naver_id,
       });
     }
 

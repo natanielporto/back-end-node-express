@@ -75,6 +75,14 @@ class UserController {
 
     return res.json(users);
   }
+
+  async indexByNavers(req, res) {
+    const { user_id } = req.params;
+    console.log(user_id);
+    const users = await User.findAll({ where: { user_id } });
+
+    return res.json(users);
+  }
 }
 
 export default new UserController();

@@ -10,7 +10,7 @@ I'll be using:
 ### Full system:
 * [X] follow MVC patterns;
 * [X] create user with email and password;
-* [X] once loged, the user may have access for data like: name, birthdate, role in the company, years in the company, admission date, projects that he/she took part in; 
+* [X] once loged, the user may have access for data like: name, birthdate, role in the company, years in the company, admission date, projects that he/she took part in;
 * [] entities of USERS, NAVERS and PROJECTS must have relations with each other;
 * [] MUST: be possible to see wich project a NAVER is assigned to and vice-versa, based on the users request;
 
@@ -35,7 +35,7 @@ I'll be using:
 * [] Projects: route filter by *name of the user*;
 * [] Projects: route detail a project (showing the Navers that participate in it);
 * [X] Projects: route create - return an object;
-* [X] Projects: route update project *by id*, 
+* [X] Projects: route update project *by id*,
 * [] Projects: *only the user can delete his/her projects*;
 
 -- Must
@@ -51,16 +51,16 @@ I'll be using:
 
   When creating an user with Insomnia, instead of *email and password*, use *email and passcode*.
   This will generate the hash with bcrypt.
-  
+
 ### Done:
   create server folder;
 
   generate express app;
-  
+
   create git repo and sync;
 
   create postgres database via docker;
-  
+
   create database: "navers", "user", "project";
 
   create models: "navers", "user", "project";
@@ -70,8 +70,8 @@ I'll be using:
   md5encryption: testebackendnave => 52bf70d79d5da983c1b9327439b8f8e4;
 
   navers: create, index, indexByName, indexByJobRole implemented;
-  
+
   project: index, create, update, delete(STILL MISSING USER VALIDATION) implementend
 
-  still needs work: 
+  still needs work:
     * search by name can't have a space between first name and last name

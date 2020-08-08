@@ -24,6 +24,10 @@ class User extends Model {
   validatePassword(passcode) {
     return bcrypt.compare(passcode, this.password);
   }
+
+  static associate(models) {
+    this.hasMany(models.Naver, { foreignKey: 'naver_id' });
+  }
 }
 
 export default User;
