@@ -1,4 +1,5 @@
 // import * as Yup from 'yup';
+import Sequelize from 'sequelize';
 import Naver from '../models/Naver';
 
 class NaverController {
@@ -68,15 +69,12 @@ class NaverController {
 
   async indexByName(req, res) {
     const { name } = req.params;
-    console.log(name);
     const splitName = name.split(' ');
-    console.log(splitName);
 
     const firstName = splitName[0];
-    console.log(firstName);
 
     const naver = await Naver.findAll({
-      where: { name: firstName },
+      where: { name: { [Sequelize.Op.iLike]: `${firstName}%` } },
       order: ['name'],
       attributes: ['id', 'name', 'email'],
     });
