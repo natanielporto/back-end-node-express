@@ -39,7 +39,7 @@ I'll be using:
 * [] Projects: *only the user can delete his/her projects*;
 
 -- Must
-* [] All responses must be in JSON format.
+* [X] All responses must be in JSON format.
 
 -- Showoff bonus
 * [] Front-end with a simple Bootstrap UI;

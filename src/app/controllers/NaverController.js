@@ -16,7 +16,6 @@ class NaverController {
     }
 
     const { user_id } = req.params;
-
     const { name, job_role, birth_date, admission_date, email } = req.body;
 
     try {
@@ -51,6 +50,7 @@ class NaverController {
         'birth_date',
         'admission_date',
         'email',
+        'user_id',
       ],
     });
 
@@ -80,6 +80,17 @@ class NaverController {
     });
 
     return res.json(naver);
+  }
+
+  async delete(req, res) {
+    const { id } = req.params;
+
+    try {
+      await Naver.destroy({ where: { id } });
+      return res.status(200);
+    } catch (err) {
+      res.status(500).json({ message: err });
+    }
   }
 }
 

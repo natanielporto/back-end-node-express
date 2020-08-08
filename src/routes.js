@@ -6,6 +6,7 @@ import NaverController from './app/controllers/NaverController';
 import AuthenticationController from './app/controllers/AuthenticationController';
 
 import authMiddleware from './app/middlewares/authenticationMiddleware';
+import deleteMiddleware from './app/middlewares/deleteMiddleware';
 
 const routes = new Router();
 
@@ -29,5 +30,6 @@ routes.get('/project', ProjectController.index);
 routes.get('/user', UserController.index);
 
 routes.delete('/project/:id', ProjectController.delete);
+routes.delete('/naver/:user_id/:id', deleteMiddleware, NaverController.delete);
 
 export default routes;

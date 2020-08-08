@@ -96,7 +96,7 @@ class ProjectController {
 
     if (!(await schema.isValid(req.params))) {
       return res.status(400).json({
-        error: 'Please, pass a valid Id to delete a project.',
+        error: 'Please, inform a valid Id to delete a project.',
       });
     }
 
@@ -113,9 +113,11 @@ class ProjectController {
     try {
       await Project.destroy({ where: { id } });
     } catch (err) {
-      res.status(400).json({ message: 'no' });
+      res.status(400).json({ message: err });
     }
 
+    // this is just to make sure that the project was deleted. I know that the
+    // philosophy says that I'm supposed to return nothing in case of success.
     return res.status(200).json({ message: `Project ${name} deleted.` });
   }
 }
