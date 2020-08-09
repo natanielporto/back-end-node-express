@@ -13,21 +13,24 @@ class ProjectController {
       });
     }
 
-    try {
-      const wasCreated = await Project.findOne({
-        where: { name: req.body.name },
-      });
+    const wasCreated = await Project.findOne({
+      where: { name: req.body.name },
+    });
 
-      if (!wasCreated) {
-        const { name } = await Project.create(req.body);
-
-        return res.json(name);
-      }
-
+    if (wasCreated) {
       return res.status(400).json({
         message:
           'A project with that name is already rolling. Please choose a new one.',
       });
+    }
+
+    try {
+      const { name } = req.body;
+      const { user_id } = req.params;
+
+      await Project.create({ name, user_id });
+
+      return res.json({ name, user_id });
     } catch (err) {
       return res.json(err);
     }
@@ -89,6 +92,22 @@ class ProjectController {
     return res.json(projects);
   }
 
+  async indexByUser(req, res) {
+    const { user_id } = req.params;
+
+    const projects = await Project.findAll({
+      where: { user_id },
+      order: ['name'],
+      attributes: ['id', 'name'],
+    });
+
+    if (!projects) {
+      res.status(400).json({ message: 'No projects with that Id. Try again.' });
+    }
+
+    return res.status(200).json(projects);
+  }
+
   async delete(req, res) {
     const schema = Yup.object().shape({
       id: Yup.number().required(),
@@ -108,7 +127,7 @@ class ProjectController {
         .json({ message: 'No project to be deleted with that Id.' });
     }
 
-    const { id, name } = project;
+    const { id } = project;
 
     try {
       await Project.destroy({ where: { id } });
@@ -116,9 +135,7 @@ class ProjectController {
       res.status(400).json({ message: err });
     }
 
-    // this is just to make sure that the project was deleted. I know that the
-    // philosophy says that I'm supposed to return nothing in case of success.
-    return res.status(200).json({ message: `Project ${name} deleted.` });
+    return res.status(200);
   }
 }
 

@@ -25,53 +25,33 @@ I'll be using:
 * [X] the following routes must NOT be accessible by users that don't have the token;
 
 -- Navers
-* [] Navers: route index by => *years of work in the company*, *name* and *role*;
-* [] Navers: route show => returns only one;
+* [] Navers: route index by => 
+    [] *years of work in the company*, 
+    [X] *user*;
+    [X] *name*; 
+    [X] *role*;
+* [X] Navers: route show => returns only one;
 * [X] Navers: route store => creates a Naver;
 * [] Navers: route update;
-* [] Navers: route delete *an user can only delete it's own Naver*;
+* [X] Navers: route delete *an user can only delete it's own Naver*;
 
 -- Projects
-* [] Projects: route filter by *name of the user*;
+* [X] Projects: route filter by *user*;
 * [] Projects: route detail a project (showing the Navers that participate in it);
 * [X] Projects: route create - return an object;
 * [X] Projects: route update project *by id*,
-* [] Projects: *only the user can delete his/her projects*;
+* [X] Projects: *only the user can delete his/her projects*;
 
 -- Must
 * [X] All responses must be in JSON format.
 
--- Showoff bonus
-* [] Front-end with a simple Bootstrap UI;
-
 ### Database model:
-![](https://app.lucidchart.com/publicSegments/view/efcdfa64-443d-4c3e-afe1-a909581c604f/image.png)
+![](https://app.lucidchart.com/publicSegments/view/00a9616b-92ab-40f6-9858-ee027c8edfb4/image.png)
 
 ## Useful hints / documentation
 
   When creating an user with Insomnia, instead of *email and password*, use *email and passcode*.
   This will generate the hash with bcrypt.
 
-### Done:
-  create server folder;
-
-  generate express app;
-
-  create git repo and sync;
-
-  create postgres database via docker;
-
-  create database: "navers", "user", "project";
-
-  create models: "navers", "user", "project";
-
-  create initial interaction and validation of the post functionality of "navers", "user", "project";
-
-  md5encryption: testebackendnave => 52bf70d79d5da983c1b9327439b8f8e4;
-
-  navers: create, index, indexByName, indexByJobRole implemented;
-
-  project: index, create, update, delete(STILL MISSING USER VALIDATION) implementend
-
-  still needs work:
-    * search by name can't have a space between first name and last name
+### BUG:
+  Can't get why the Naver delete method goes through, but stays in the Insomnina request loop until it's canceled. (but the Naver is deleted from DB)

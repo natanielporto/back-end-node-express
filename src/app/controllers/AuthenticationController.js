@@ -35,6 +35,7 @@ class AuthenticationController {
 
     return res.json({
       user: {
+        id,
         email,
       },
       token: jwt.sign({ id }, authenticator.secret, {

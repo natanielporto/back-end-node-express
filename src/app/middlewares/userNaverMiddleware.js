@@ -8,7 +8,7 @@ export default async (req, res, next) => {
   if (!hasNaver || (!hasNaver && user_id !== hasNaver.user_id)) {
     res.status(400).json({
       message:
-        'Error: you can only delete existing Navers and they have to be your Navers.',
+        'Error: you can only delete or update existing Navers and they have to be your Navers.',
     });
   }
   try {

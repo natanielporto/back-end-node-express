@@ -37,7 +37,7 @@ class NaverController {
         user_id,
       });
     } catch (err) {
-      return res.json(err);
+      return res.status(400).json(err);
     }
   }
 
@@ -57,14 +57,52 @@ class NaverController {
     return res.json(naver);
   }
 
+  async indexById(req, res) {
+    const { id } = req.params;
+
+    const naver = await Naver.findByPk(id);
+
+    if (!naver) {
+      res.status(400).json({ message: 'No Naver with that Id. Try again.' });
+    }
+
+    const { name, job_role, birth_date, admission_date, email } = naver;
+
+    return res
+      .status(200)
+      .json({ name, job_role, birth_date, admission_date, email });
+  }
+
+  async indexByUserId(req, res) {
+    const { user_id } = req.params;
+
+    const navers = await Naver.findAll({
+      where: { user_id },
+      order: ['name'],
+      attributes: ['id', 'name', 'job_role', 'email'],
+    });
+
+    if (!navers) {
+      res.status(400).json({ message: 'No Navers with that Id. Try again.' });
+    }
+
+    return res.status(200).json(navers);
+  }
+
   async indexByRole(req, res) {
+    const { job_role } = req.params;
+
+    const splitJob = job_role.split(' ');
+
+    const job = splitJob[0];
+
     const naver = await Naver.findAll({
-      where: { job_role: req.params.job_role },
+      where: { job_role: { [Sequelize.Op.iLike]: `${job}%` } },
       order: ['job_role'],
       attributes: ['id', 'name', 'job_role', 'email'],
     });
 
-    return res.json(naver);
+    return res.status(200).json(naver);
   }
 
   async indexByName(req, res) {
@@ -79,7 +117,7 @@ class NaverController {
       attributes: ['id', 'name', 'email'],
     });
 
-    return res.json(naver);
+    return res.status(200).json(naver);
   }
 
   async delete(req, res) {
@@ -87,10 +125,10 @@ class NaverController {
 
     try {
       await Naver.destroy({ where: { id } });
-      return res.status(200);
     } catch (err) {
       res.status(500).json({ message: err });
     }
+    return res.status(200);
   }
 }
 
