@@ -78,10 +78,14 @@ class UserController {
 
   async indexByNavers(req, res) {
     const { user_id } = req.params;
-    console.log(user_id);
-    const users = await User.findAll({ where: { user_id } });
+    const users = await User.findByPk(user_id, {
+      include: {
+        association: 'navers',
+        attributes: ['name', 'job_role', 'email'],
+      },
+    });
 
-    return res.json(users);
+    return res.json(users.navers);
   }
 }
 

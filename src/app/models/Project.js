@@ -13,7 +13,11 @@ class Project extends Model {
   }
 
   static associate(models) {
-    this.belongsTo(models.User, { foreignKey: 'user_id' });
+    this.belongsToMany(models.Naver, {
+      foreignKey: 'project_id',
+      through: 'naver_project',
+      as: 'navers',
+    });
   }
 }
 

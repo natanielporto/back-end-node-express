@@ -1,5 +1,6 @@
 // import * as Yup from 'yup';
 import Sequelize from 'sequelize';
+import Moment from 'moment';
 import Naver from '../models/Naver';
 
 class NaverController {
@@ -57,7 +58,7 @@ class NaverController {
     return res.json(naver);
   }
 
-  async indexById(req, res) {
+  async indexByNaverId(req, res) {
     const { id } = req.params;
 
     const naver = await Naver.findByPk(id);
@@ -118,6 +119,26 @@ class NaverController {
     });
 
     return res.status(200).json(naver);
+  }
+
+  async indexByDate(req, res) {
+    const naver = await Naver.findAll({
+      order: ['created_at'],
+      attributes: ['id', 'name', 'created_at'],
+    });
+
+    console.log('0', naver[0]);
+    console.log('1', naver[1]);
+    console.log('2', naver[2]);
+    // const { created_at } = naver[2];
+    // console.log(created_at);
+    // console.log(Moment('19801017', 'YYYYMMDD').fromNow());
+
+    try {
+      return res.status(200).json(naver);
+    } catch (err) {
+      return res.status(500).json(err);
+    }
   }
 
   async delete(req, res) {

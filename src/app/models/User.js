@@ -26,7 +26,7 @@ class User extends Model {
   }
 
   static associate(models) {
-    this.hasMany(models.Naver);
+    this.hasMany(models.Naver, { foreignKey: 'user_id', as: 'navers' });
     this.hasMany(models.Project);
   }
 }

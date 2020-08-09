@@ -11,7 +11,7 @@ I'll be using:
 * [X] follow MVC patterns;
 * [X] create user with email and password;
 * [X] once loged, the user may have access for data like: name, birthdate, role in the company, years in the company, admission date, projects that he/she took part in;
-* [] entities of USERS, NAVERS and PROJECTS must have relations with each other;
+* [X] entities of USERS, NAVERS and PROJECTS must have relations with each other;
 * [] MUST: be possible to see wich project a NAVER is assigned to and vice-versa, based on the users request;
 
 ### What must be delivered:
@@ -23,6 +23,7 @@ I'll be using:
 * [X] Authentication: signup - receive an e-mail and password to create a new entry in the DB;
 * [X] Authentication: login - must be in a JWT token;
 * [X] the following routes must NOT be accessible by users that don't have the token;
+* [X] Index by users own Navers
 
 -- Navers
 * [] Navers: route index by => 

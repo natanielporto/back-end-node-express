@@ -1,5 +1,6 @@
 import * as Yup from 'yup';
 import Project from '../models/Project';
+import Naver from '../models/Naver';
 
 class ProjectController {
   async store(req, res) {
@@ -13,27 +14,43 @@ class ProjectController {
       });
     }
 
-    const wasCreated = await Project.findOne({
-      where: { name: req.body.name },
+    const { naver_id } = req.params;
+    const { name } = req.body;
+
+    const naver = await Naver.findByPk(naver_id);
+
+    if (!naver) {
+      return res.status(400).json({ error: 'Naver not found. Try again.' });
+    }
+
+    const [project] = await Project.findOrCreate({
+      where: { name },
     });
 
-    if (wasCreated) {
-      return res.status(400).json({
-        message:
-          'A project with that name is already rolling. Please choose a new one.',
-      });
-    }
+    await naver.addProject(project);
 
-    try {
-      const { name } = req.body;
-      const { user_id } = req.params;
+    return res.status(200).json(project);
+    // const wasCreated = await Project.findOne({
+    //   where: { name: req.body.name },
+    // });
 
-      await Project.create({ name, user_id });
+    // if (wasCreated) {
+    //   return res.status(400).json({
+    //     message:
+    //       'A project with that name is already rolling. Please choose a new one.',
+    //   });
+    // }
 
-      return res.json({ name, user_id });
-    } catch (err) {
-      return res.json(err);
-    }
+    // try {
+    //   const { name } = req.body;
+    //   const { user_id } = req.params;
+
+    //   await Project.create({ name, user_id });
+
+    //   return res.json({ name, user_id });
+    // } catch (err) {
+    //   return res.json(err);
+    // }
   }
 
   async update(req, res) {
@@ -85,12 +102,24 @@ class ProjectController {
   }
 
   async index(req, res) {
-    const projects = await Project.findAll({
-      attributes: ['id', 'name'],
+    const { naver_id } = req.params;
+
+    const navers = await Naver.findByPk(naver_id, {
+      include: { association: 'projects' },
+      // attributes: ['id', 'name'],
     });
 
-    return res.json(projects);
+    return res.json(navers.projects);
   }
+
+  // before - works
+  // async index(req, res) {
+  //   const projects = await Project.findAll({
+  //     attributes: ['id', 'name'],
+  //   });
+
+  //   return res.json(projects);
+  // }
 
   async indexByUser(req, res) {
     const { user_id } = req.params;
@@ -106,6 +135,36 @@ class ProjectController {
     }
 
     return res.status(200).json(projects);
+  }
+
+  // NEW - WORKS
+  async deleteProjectFromUser(req, res) {
+    const schema = Yup.object().shape({
+      naver_id: Yup.number().required(),
+    });
+
+    if (!(await schema.isValid(req.params))) {
+      return res.status(400).json({
+        error: 'Please, inform a valid Id to delete a project.',
+      });
+    }
+
+    const { naver_id } = req.params;
+    const { name } = req.body;
+
+    const naver = await Naver.findByPk(naver_id);
+
+    if (!naver) {
+      return res.status(400).json({ error: 'Naver not found. Try again.' });
+    }
+
+    const project = await Project.findOne({
+      where: { name },
+    });
+
+    await naver.removeProject(project);
+
+    return res.status(200).json();
   }
 
   async delete(req, res) {
