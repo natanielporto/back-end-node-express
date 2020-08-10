@@ -29,8 +29,6 @@ routes.put('/user', UserController.update);
 // routes.get('/project', ProjectController.index);
 
 // ALL PROJECT ROUTES TESTED
-
-// ALL PROJECT ROUTES NOT TESTED
 routes.post('/naver/:user_id/project', ProjectController.store);
 routes.delete(
   '/project/:user_id/:id',
@@ -38,12 +36,14 @@ routes.delete(
   ProjectController.delete
 );
 routes.delete(
-  '/naver/:naver_id/project',
+  '/naver/:naver_id/:project_id',
   ProjectController.deleteProjectFromUser
 );
-routes.get('/naver/:naver_id/project', ProjectController.index);
-routes.get('/project/user/:user_id', ProjectController.indexByUser);
-routes.put('/project/', ProjectController.update);
+routes.get('/naver/:naver_id/project', ProjectController.indexByNaver);
+routes.get('/project/naver/:user_id', ProjectController.indexByUser);
+
+// ALL PROJECT ROUTES NOT TESTED
+routes.put('/project/:user_id/:project_id', ProjectController.update);
 
 // naver routes - tested and ok
 routes.post('/:user_id/naver', NaverController.store);
