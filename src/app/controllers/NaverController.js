@@ -33,7 +33,7 @@ class NaverController {
     });
 
     if (alredyNaver) {
-      return res.status(400).json({
+      return res.status(401).json({
         message:
           'You are already a Naver. One cannot be two Navers at the same time, silly goose!',
       });
@@ -104,19 +104,12 @@ class NaverController {
     return res.json(naver);
   }
 
-  // index by time with Nave - HAS ISSUES
+  // index by time with Nave - DOES NOT FUNCTION AS IT SHOULD
   async indexByDate(req, res) {
     const naver = await Naver.findAll({
       order: ['created_at'],
       attributes: ['id', 'name', 'created_at'],
     });
-
-    console.log('0', naver[0]);
-    console.log('1', naver[1]);
-    console.log('2', naver[2]);
-    // const { created_at } = naver[2];
-    // console.log(created_at);
-    // console.log(Moment('19801017', 'YYYYMMDD').fromNow());
 
     try {
       return res.status(200).json(naver);
@@ -167,7 +160,7 @@ class NaverController {
 
     if (!(await schema.isValid(req.params))) {
       return res.status(400).json({
-        error: 'Informations are invalid. Please check them and try again.',
+        error: 'Invalid data. Please check them and try again.',
       });
     }
 
@@ -214,10 +207,7 @@ class NaverController {
       res.status(400).json({ message: 'No Naver with that Id. Try again.' });
     }
 
-    // const { name, job_role, birth_date, admission_date, email } = naver;
-
     return res.status(200).json(naver);
-    // .json({ name, job_role, birth_date, admission_date, email });
   }
 
   // shows Navers by User ID
@@ -249,8 +239,8 @@ class NaverController {
 
   async update(req, res) {
     const schema = Yup.object().shape({
-      name: Yup.string().required(),
-      job_role: Yup.string().required(),
+      name: Yup.string().required().min(6),
+      job_role: Yup.string().required().min(2),
       birth_date: Yup.date().required(),
       admission_date: Yup.date().required(),
       email: Yup.string().email().required(),
@@ -266,7 +256,7 @@ class NaverController {
     const naver = await Naver.findByPk(naver_id);
 
     if (naver.user_id !== Number(user_id)) {
-      return res.status(400).json({
+      return res.status(401).json({
         error: 'You can only change the informations on your own Navers.',
       });
     }

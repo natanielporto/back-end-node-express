@@ -80,6 +80,16 @@ class UserController {
 
   // shows the Navers that the user has, and the projects associated to that Naver - TESTED - OK
   async indexByNavers(req, res) {
+    const schema = Yup.object().shape({
+      user_id: Yup.number().required(),
+    });
+
+    if (!(await schema.isValid(req.params))) {
+      return res.status(400).json({
+        error: 'Informations are invalid. Please check them and try again.',
+      });
+    }
+
     const { user_id } = req.params;
     const users = await User.findByPk(user_id, {
       include: {
