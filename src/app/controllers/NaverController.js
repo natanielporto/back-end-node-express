@@ -1,7 +1,6 @@
 import * as Yup from 'yup';
 import Sequelize from 'sequelize';
 import Naver from '../models/Naver';
-import Project from '../models/Project';
 
 class NaverController {
   // creates a new naver - TESTED OK
@@ -246,6 +245,52 @@ class NaverController {
     }
 
     return res.status(200).json(navers);
+  }
+
+  async update(req, res) {
+    const schema = Yup.object().shape({
+      name: Yup.string().required(),
+      job_role: Yup.string().required(),
+      birth_date: Yup.date().required(),
+      admission_date: Yup.date().required(),
+      email: Yup.string().email().required(),
+    });
+    if (!(await schema.isValid(req.body))) {
+      return res.status(400).json({
+        error: 'Informations are invalid. Please check them and try again.',
+      });
+    }
+
+    const { user_id, naver_id } = req.params;
+
+    const naver = await Naver.findByPk(naver_id);
+
+    if (naver.user_id !== Number(user_id)) {
+      return res.status(400).json({
+        error: 'You can only change the informations on your own Navers.',
+      });
+    }
+
+    const { name, job_role, birth_date, admission_date, email } = req.body;
+    const id = naver_id;
+    await Naver.update(
+      {
+        name,
+        job_role,
+        birth_date,
+        admission_date,
+        email,
+      },
+      { where: { id } }
+    );
+
+    return res.status(200).json({
+      name,
+      job_role,
+      birth_date,
+      admission_date,
+      email,
+    });
   }
 }
 

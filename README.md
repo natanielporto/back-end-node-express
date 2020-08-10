@@ -50,8 +50,9 @@ I'll be using:
 ![](https://app.lucidchart.com/publicSegments/view/00a9616b-92ab-40f6-9858-ee027c8edfb4/image.png)
 
 ## Useful hints / extra documentation
-  When creating an user with Insomnia, instead of *email and password*, use *email and passcode*.
-  This will generate the hash with bcrypt.
+ * When creating an user with Insomnia, instead of *email and password*, use *email and passcode*.
+ * This will generate the hash with bcrypt.
+ * If you choose to create a new user (I guess you already know this, but...), you should authenticate and change the environment variable "token" with your new JWT token, so you can access the routes and test the code.
 
 ### BUG:
   Can't get why the Naver delete method goes through, but stays in the Insomnina request loop until it's canceled. (but the Naver is deleted from DB)

@@ -2,6 +2,7 @@ import * as Yup from 'yup';
 import User from '../models/User';
 
 class UserController {
+  // saves a new user - TESTED OK
   async store(req, res) {
     const schema = Yup.object().shape({
       email: Yup.string().email().required(),
@@ -27,6 +28,7 @@ class UserController {
     });
   }
 
+  // changes the passcode / password of the user - TESTED OK
   async update(req, res) {
     const schema = Yup.object().shape({
       email: Yup.string().email(),
@@ -76,6 +78,7 @@ class UserController {
     return res.json(users);
   }
 
+  // shows the Navers that the user has, and the projects associated to that Naver - TESTED - OK
   async indexByNavers(req, res) {
     const { user_id } = req.params;
     const users = await User.findByPk(user_id, {
@@ -85,6 +88,9 @@ class UserController {
         include: {
           association: 'projects',
           attributes: ['name'],
+          through: {
+            attributes: [],
+          },
         },
       },
     });

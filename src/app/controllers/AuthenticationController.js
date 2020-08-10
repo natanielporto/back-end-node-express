@@ -5,6 +5,7 @@ import User from '../models/User';
 import authenticator from '../../config/auth';
 
 class AuthenticationController {
+  // authenticates a new user - TESTED OK
   async store(req, res) {
     const schema = Yup.object().shape({
       email: Yup.string().email().required(),
