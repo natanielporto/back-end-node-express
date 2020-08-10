@@ -135,6 +135,7 @@ class ProjectController {
     return res.json(navers);
   }
 
+  // shows a project and it's navers - TESTED OK
   async indexByUser(req, res) {
     const { user_id } = req.params;
 
@@ -142,6 +143,13 @@ class ProjectController {
       where: { user_id },
       order: ['name'],
       attributes: ['id', 'name'],
+      include: {
+        association: 'navers',
+        attributes: ['id', 'name', 'birth_date', 'admission_date', 'job_role'],
+        through: {
+          attributes: [],
+        },
+      },
     });
 
     if (!projects) {

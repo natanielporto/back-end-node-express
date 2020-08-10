@@ -41,9 +41,9 @@ routes.delete(
 );
 routes.get('/naver/:naver_id/project', ProjectController.indexByNaver);
 routes.get('/project/naver/:user_id', ProjectController.indexByUser);
+routes.put('/project/:user_id/:project_id', ProjectController.update);
 
 // ALL PROJECT ROUTES NOT TESTED
-routes.put('/project/:user_id/:project_id', ProjectController.update);
 
 // naver routes - tested and ok
 routes.post('/:user_id/naver', NaverController.store);
