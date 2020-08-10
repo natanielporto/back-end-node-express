@@ -12,11 +12,11 @@ I'll be using:
 * [X] create user with email and password;
 * [X] once loged, the user may have access for data like: name, birthdate, role in the company, years in the company, admission date, projects that he/she took part in;
 * [X] entities of USERS, NAVERS and PROJECTS must have relations with each other;
-* [] MUST: be possible to see wich project a NAVER is assigned to and vice-versa, based on the users request;
+* [X] MUST: be possible to see wich project a NAVER is assigned to and vice-versa, based on the users request;
 
 ### What must be delivered:
 * [X] a RESTful API in Node.JS;
-* [] a proper documentation of how the API can be tested - Insomnia shall sufice;
+* [X] a proper documentation - all code is documented inside of it - Insomnia shall sufice - inside the folder 'Assets' I've included a file with all queries that I used and a Postgres dump file with the database used;
 
 ### Funcionalities:
 -- User
@@ -26,8 +26,8 @@ I'll be using:
 * [X] Index by users own Navers
 
 -- Navers
-* [] Navers: route index by => 
-    [] *years of work in the company*, 
+* [X] Navers: route index by => 
+    [F] *years of work in the company*, 
     [X] *user*;
     [X] *name*; 
     [X] *role*;
@@ -38,7 +38,7 @@ I'll be using:
 
 -- Projects
 * [X] Projects: route filter by *user*;
-* [] Projects: route detail a project (showing the Navers that participate in it);
+* [X] Projects: route detail a project (showing the Navers that participate in it);
 * [X] Projects: route create - return an object;
 * [X] Projects: route update project *by id*,
 * [X] Projects: *only the user can delete his/her projects*;
@@ -49,8 +49,7 @@ I'll be using:
 ### Database model:
 ![](https://app.lucidchart.com/publicSegments/view/00a9616b-92ab-40f6-9858-ee027c8edfb4/image.png)
 
-## Useful hints / documentation
-
+## Useful hints / extra documentation
   When creating an user with Insomnia, instead of *email and password*, use *email and passcode*.
   This will generate the hash with bcrypt.
 

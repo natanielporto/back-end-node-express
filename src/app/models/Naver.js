@@ -17,7 +17,7 @@ class Naver extends Model {
   }
 
   static associate(models) {
-    this.belongsTo(models.User, { foreignKey: 'user_id', as: 'user' });
+    this.belongsTo(models.User, { foreignKey: 'user_id' });
     this.belongsToMany(models.Project, {
       foreignKey: 'naver_id',
       through: 'naver_project',

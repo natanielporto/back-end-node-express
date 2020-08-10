@@ -3,6 +3,7 @@ import Project from '../models/Project';
 import Naver from '../models/Naver';
 
 class ProjectController {
+  // creates a new project for a naver - TESTED OK
   async store(req, res) {
     const schema = Yup.object().shape({
       name: Yup.string().required(),
@@ -14,13 +15,16 @@ class ProjectController {
       });
     }
 
-    const { naver_id } = req.params;
+    const { user_id } = req.params;
+    const { naver_id } = req.body;
     const { name } = req.body;
 
     const naver = await Naver.findByPk(naver_id);
 
-    if (!naver) {
-      return res.status(400).json({ error: 'Naver not found. Try again.' });
+    if (!naver || !user_id) {
+      return res
+        .status(400)
+        .json({ error: 'Invalid user or Naver information. Try again.' });
     }
 
     const [project] = await Project.findOrCreate({
@@ -30,27 +34,37 @@ class ProjectController {
     await naver.addProject(project);
 
     return res.status(200).json(project);
-    // const wasCreated = await Project.findOne({
-    //   where: { name: req.body.name },
-    // });
+  }
 
-    // if (wasCreated) {
-    //   return res.status(400).json({
-    //     message:
-    //       'A project with that name is already rolling. Please choose a new one.',
-    //   });
-    // }
+  // delete a full project - TESTED OK
+  async delete(req, res) {
+    const schema = Yup.object().shape({
+      id: Yup.number().required(),
+    });
 
-    // try {
-    //   const { name } = req.body;
-    //   const { user_id } = req.params;
+    if (!(await schema.isValid(req.params))) {
+      return res.status(400).json({
+        error: 'Please, inform a valid Id to delete a project.',
+      });
+    }
 
-    //   await Project.create({ name, user_id });
+    const project = await Project.findByPk(req.params.id);
 
-    //   return res.json({ name, user_id });
-    // } catch (err) {
-    //   return res.json(err);
-    // }
+    if (!project) {
+      res
+        .status(400)
+        .json({ message: 'No project to be deleted with that Id.' });
+    }
+
+    const { id } = project;
+
+    try {
+      await Project.destroy({ where: { id } });
+    } catch (err) {
+      res.status(400).json({ message: err });
+    }
+
+    return res.status(200).json();
   }
 
   async update(req, res) {
@@ -105,8 +119,9 @@ class ProjectController {
     const { naver_id } = req.params;
 
     const navers = await Naver.findByPk(naver_id, {
-      include: { association: 'projects' },
-      // attributes: ['id', 'name'],
+      include: {
+        association: 'projects',
+      },
     });
 
     return res.json(navers.projects);
@@ -165,36 +180,6 @@ class ProjectController {
     await naver.removeProject(project);
 
     return res.status(200).json();
-  }
-
-  async delete(req, res) {
-    const schema = Yup.object().shape({
-      id: Yup.number().required(),
-    });
-
-    if (!(await schema.isValid(req.params))) {
-      return res.status(400).json({
-        error: 'Please, inform a valid Id to delete a project.',
-      });
-    }
-
-    const project = await Project.findByPk(req.params.id);
-
-    if (!project) {
-      res
-        .status(400)
-        .json({ message: 'No project to be deleted with that Id.' });
-    }
-
-    const { id } = project;
-
-    try {
-      await Project.destroy({ where: { id } });
-    } catch (err) {
-      res.status(400).json({ message: err });
-    }
-
-    return res.status(200);
   }
 }
 

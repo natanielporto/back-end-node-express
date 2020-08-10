@@ -27,10 +27,11 @@ routes.put('/user', UserController.update);
 
 // project routes
 // routes.get('/project', ProjectController.index);
-routes.get('/naver/:naver_id/project', ProjectController.index);
-routes.get('/project/user/:user_id', ProjectController.indexByUser);
-routes.post('/naver/:naver_id/project', ProjectController.store);
-routes.put('/project/', ProjectController.update);
+
+// ALL PROJECT ROUTES TESTED
+
+// ALL PROJECT ROUTES NOT TESTED
+routes.post('/naver/:user_id/project', ProjectController.store);
 routes.delete(
   '/project/:user_id/:id',
   userProjectMiddleware,
@@ -40,19 +41,22 @@ routes.delete(
   '/naver/:naver_id/project',
   ProjectController.deleteProjectFromUser
 );
+routes.get('/naver/:naver_id/project', ProjectController.index);
+routes.get('/project/user/:user_id', ProjectController.indexByUser);
+routes.put('/project/', ProjectController.update);
 
-// naver routes
+// naver routes - tested and ok
 routes.post('/:user_id/naver', NaverController.store);
-routes.get('/naver', NaverController.index);
-routes.get('/naver/:id', NaverController.indexByNaverId);
-routes.get('/naver/user/:user_id', NaverController.indexByUserId);
-routes.get('/naver/job/:job_role', NaverController.indexByRole);
-routes.get('/naver/name/:name', NaverController.indexByName);
-routes.get('/datenaver', NaverController.indexByDate);
 routes.delete(
-  '/naver/:user_id/:id',
+  '/user/:user_id/naver/:id',
   userNaverMiddleware,
   NaverController.delete
 );
+routes.get('/:user_id/naver', NaverController.indexAll);
+routes.get('/naver/date', NaverController.indexByDate);
+routes.get('/naver/job/:job_role', NaverController.indexByRole);
+routes.get('/naver/name/:name', NaverController.indexByName);
+routes.get('/naver/:naver_id', NaverController.indexByNaverId);
+routes.get('/user/:user_id/naver', NaverController.indexByUserId);
 
 export default routes;

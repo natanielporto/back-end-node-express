@@ -82,6 +82,10 @@ class UserController {
       include: {
         association: 'navers',
         attributes: ['name', 'job_role', 'email'],
+        include: {
+          association: 'projects',
+          attributes: ['name'],
+        },
       },
     });
 
